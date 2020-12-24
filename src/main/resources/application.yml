@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: zuul-service
+zuul:
+  routes:
+    books:
+      serviceId: CATALOGUE-SERVICE
+      path: /book/**
+      stripPrefix: false
+    book-texts:
+      serviceId: READER-SERVICE
+      path: /book_text/**
+      stripPrefix: false
+    reviews:
+      serviceId: REVIEW-SERVICE
+      path: /review/**
+      stripPrefix: false
+server:
+  port: 80
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URL}/eureka/
+  instance:
+    statusPageUrlPath: /actuator/info
+    healthCheckUrlPath: /actuator/health
+    hostname: ${DOMAIN_NAME}
+    non-secure-port-enabled: true
+    non-secure-port: 80
+    health-check-url: https://${eureka.instance.hostname}${eureka.instance.healthCheckUrlPath}
+    status-page-url: https://${eureka.instance.hostname}${eureka.instance.statusPageUrlPath}
